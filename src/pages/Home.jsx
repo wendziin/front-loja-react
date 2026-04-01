@@ -1,41 +1,42 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
+import { getProducts } from '../services/api';
 
 export default function Home() {
-  const trendingProducts = [
-  { 
-    id: 1, 
-    name: "Tênis Nike Revolution 6", 
-    category: "Tênis", 
-    price: "399,90", 
-    discountPrice: "299,90", 
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600" 
-  },
-  { 
-    id: 2, 
-    name: "Tênis Adidas Sport", 
-    category: "Tênis", 
-    price: "299,90", 
-    discountPrice: "199,90", 
-    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=600" 
-  },
-  { 
-    id: 3, 
-    name: "Sandália Casual Strike", 
-    category: "Sandálias", 
-    price: "89,90", 
-    discountPrice: null, 
-    image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=600" 
-  },
-  { 
-    id: 4, 
-    name: "Tênis Puma Street", 
-    category: "Tênis", 
-    price: "349,90", 
-    discountPrice: "249,90", 
-    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=600" 
-  },
-];
+  const [trendingProducts, setTrendingProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      // O backend retorna os produtos em data.data ou data?
+      // Vou assumir que data é a lista ou tem uma propriedade data.
+      const productsList = Array.isArray(data) ? data : data.data || [];
+      
+      const formattedProducts = productsList.map(p => ({
+        id: p.id,
+        name: p.name,
+        category: p.category_names?.[0] || "Geral", 
+        price: p.price.toFixed(2).replace('.', ','),
+        discountPrice: p.price_with_discount ? p.price_with_discount.toFixed(2).replace('.', ',') : null,
+        image: p.images?.[0]?.content || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600"
+      }));
+
+      setTrendingProducts(formattedProducts.slice(0, 8));
+      setLoading(false);
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-pink-600"></div>
+      </div>
+    );
+  }
   return (
     <div className="bg-gray-50 pb-12">
       {/* 1. Hero Banner */}
