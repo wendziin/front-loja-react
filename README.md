@@ -1,16 +1,61 @@
-# React + Vite
+# 🛍️ Digital Store - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o frontend da loja virtual "Digital Store", desenvolvido com React, Vite e Tailwind CSS. O projeto consome dados da API backend para exibir produtos, categorias e gerenciar a experiência de compra.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19**
+- **Vite** (Build tool e servidor de desenvolvimento rápido)
+- **Tailwind CSS v4** (Estilização utilitária)
+- **React Router DOM** (Navegação de páginas)
 
-## React Compiler
+## 📁 Estrutura de Diretórios
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+A estrutura do projeto está organizada da seguinte forma:
 
-## Expanding the ESLint configuration
+```text
+src/
+├── assets/       # Imagens e arquivos estáticos
+├── components/   # Componentes reutilizáveis (Header, Footer, etc.)
+├── context/      # Contextos do React (ex: CartContext)
+├── pages/        # Páginas da aplicação (Home, ProductList, Login, etc.)
+├── services/     # Configuração e chamadas de API (fetch)
+├── App.jsx       # Componente raiz com as rotas
+└── main.jsx      # Ponto de entrada da aplicação
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ⚙️ Variáveis de Ambiente e Configuração da API
+
+As requisições para a API estão centralizadas no arquivo `src/services/api.js`. Por padrão, o projeto em produção está configurado para consumir a API no Render:
+
+`const API_URL = "https://api-loja-nodejs.onrender.com/v1";`
+
+Para rodar localmente com o backend no seu computador, você deve alterar a `API_URL` para o seu `localhost` (ex: `http://localhost:3000/v1`).
+
+## 📥 Como rodar o projeto localmente
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/wendziin/front-loja-react.git
+   ```
+
+2. Acesse a pasta do projeto:
+   ```bash
+   cd projeto-front-loja
+   ```
+
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+4. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+
+5. O site estará disponível em `http://localhost:5173`.
+
+## 🌐 Deploy na Nuvem
+
+O deploy deste frontend foi configurado na plataforma **Render**, conectado diretamente à branch `main` do GitHub. Sempre que um push é feito para a branch principal, um novo build é gerado e o site é atualizado automaticamente.
